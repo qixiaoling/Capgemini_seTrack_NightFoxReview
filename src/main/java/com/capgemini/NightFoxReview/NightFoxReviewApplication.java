@@ -18,12 +18,7 @@ public class NightFoxReviewApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 
 		SpringApplication.run(NightFoxReviewApplication.class, args);
-
-
-
 	}
-
-
 
 	@Override
 	public void run(String... args) throws Exception {

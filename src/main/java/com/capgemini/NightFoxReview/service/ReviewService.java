@@ -63,7 +63,7 @@ public class ReviewService {
               .onStatus(
                         HttpStatus.BAD_REQUEST::equals,
                         clientResponse -> clientResponse.bodyToMono(String.class).map(BadRequestException::new))
-                .onStatus(
+              .onStatus(
                         HttpStatus.NOT_FOUND::equals,
                         clientResponse -> clientResponse.bodyToMono(String.class).map(NotFoundException::new))
               .bodyToMono(Artist.class)
@@ -74,20 +74,34 @@ public class ReviewService {
               .block();
       return ResponseEntity.ok().body("Your review on "+ artist.getBandName() + " is made.");
 
-
-
-
-
-
-
 //              .toEntity(HttpStatus.class)
 //              .map(response -> response.getStatusCode());
 
-
-
-
+    }
+    public void updateReviewById(Long id, Review review) {
+        Optional<Review> possibleReview = reviewRepository.findById(id);
+        if(possibleReview.isPresent()){
+            possibleReview.get().setNameReviewer(review.getNameReviewer());
+            possibleReview.get().setDescription(review.getDescription());
+            possibleReview.get().setLike(review.getLike());
+            reviewRepository.save(possibleReview.get());
+            return;
+        }
+        throw new NotFoundException(
+                "Review id: " + id + "does not exist.");
 
     }
+
+    public void deleteReviewById(Long reviewId){
+        Optional<Review> possibleReview = reviewRepository.findById(reviewId);
+        if(possibleReview.isPresent()){
+            reviewRepository.deleteById(reviewId);
+            return;
+        }
+        throw new NotFoundException(
+                "Review id: " + reviewId + "does not exist.");
+    }
+
 
 
 }
