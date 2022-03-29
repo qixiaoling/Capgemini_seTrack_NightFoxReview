@@ -1,1 +1,0 @@
-insert into reivew value(1,'micky', 'again', 3);
