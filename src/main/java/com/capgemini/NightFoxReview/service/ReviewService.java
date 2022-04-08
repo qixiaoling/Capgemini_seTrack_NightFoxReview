@@ -49,7 +49,7 @@ public class ReviewService {
     public void addReviewByArtistId(Long artistId, Review review){
        webClientBuilder.build()
                     .get()
-                    .uri("http://localhost:8081/artist/checkExists/" + artistId)
+                    .uri("http://host.docker.internal:8082/artist/checkExists/" + artistId)
                     .retrieve()
               .onStatus(
                         HttpStatus.INTERNAL_SERVER_ERROR::equals,
